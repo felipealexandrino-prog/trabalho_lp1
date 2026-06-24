@@ -67,6 +67,8 @@ vector<ItemVenda> itensVenda;
 
 
 
+
+
 // ─────────────────────────────────────────
 //  MENU PRINCIPAL : Marivaldo
 // ─────────────────────────────────────────
@@ -90,6 +92,80 @@ double menuPrincipal(){
 }
 
 
+
+// ─────────────────────────────────────────
+//  CADASTRO INGRESSO : Marivaldo
+// ─────────────────────────────────────────
+void cadastrarIngresso() {
+
+    if (partidas.empty()) {
+        cout << "\nNenhuma partida cadastrada.\n";
+        cout << "Cadastre uma partida antes de criar ingressos.\n";
+        return;
+    }
+
+    Ingresso novoIngresso;
+
+    novoIngresso.id = ingressos.size() + 1;
+
+    cout << "\n===== PARTIDAS DISPONIVEIS =====\n";
+
+    for (int i = 0; i < partidas.size(); i++) {
+        cout << "ID: " << partidas[i].id
+             << " | "
+             << partidas[i].timeCasa
+             << " x "
+             << partidas[i].timeVisitante
+             << endl;
+    }
+
+    cout << "\nDigite o ID da partida: ";
+    cin >> novoIngresso.idPartida;
+
+    cout << "Digite o setor: ";
+    cin.ignore();
+    getline(cin, novoIngresso.setor);
+
+    cout << "Digite o valor do ingresso: ";
+    cin >> novoIngresso.valor;
+
+    ingressos.push_back(novoIngresso);
+
+    cout << "\nIngresso cadastrado com sucesso!\n";
+}
+
+// ─────────────────────────────────────────
+//  CADASTRO DE CLIENTES: Marivaldo
+// ─────────────────────────────────────────
+void addClient(string nome, string cpf){
+    
+    Cliente novoCliente;
+    
+    novoCliente.id = clientes.size() + 1;
+    novoCliente.nome = nome;
+    novoCliente.cpf = cpf;
+    
+    
+    clientes.push_back(novoCliente);
+}
+
+
+
+// ─────────────────────────────────────────
+//  CADASTRO DE PARTIDAS : Marivaldo
+// ─────────────────────────────────────────
+void addmatch(string homeTeam, string awayTeam, string Date){
+    
+    Partida newMatch;
+    
+    newMatch.id = partidas.size() + 1;
+    newMatch.timeCasa = homeTeam;
+    newMatch.timeVisitante = awayTeam;
+    newMatch.data = Date;
+    
+    partidas.push_back(newMatch);
+    
+}
 
 
 
@@ -176,20 +252,79 @@ void relatorioPartida(int totalPartidas, int totalVendas) {
 // ─────────────────────────────────────────
 
 int main() {
+    //Variaveis clientes
+    string NomeClient;
+    string cpfClient;
+    
+    //Variaveis Partidas
+    string data;
+    string homeTeam;
+    string awayTeam;
+    
+    
     cout << "Sistema de Gestão de Ingressos e Sócio Torcedor" << endl;
+    
     double choose;
     
     do{
         
         choose = menuPrincipal();
         
+        if(choose == 1){
+            cout << "Cadastro de funcionarios";
+        }
+        
+        if(choose == 2){
+            
+            NomeClient = "";
+            cpfClient = "";
+            
+            cout << "Nome do cliente: ";
+            cin >> NomeClient;
+            
+            cout << "CPF do cliente: ";
+            cin >> cpfClient;
+            
+            addClient(NomeClient, cpfClient);
+            
+            cout << "!!!CLIENTE ADICIONADO COM SUCESSO!!!\n";
+            
+            cout << clientes[0].nome << endl;
+            cout << clientes[0].id << endl;
+            cout << clientes[0].cpf << endl;
+            
+        }
+        
+        if(choose == 3){
+            
+            cout << "Time Da Casa: ";
+            cin >> homeTeam;
+            
+            cout << "Time Visitante: ";
+            cin >> awayTeam;
+            
+            cout << "Data: ";
+            cin >> data;
+            
+            addmatch(homeTeam, awayTeam, data);
+            
+            cout << "!!!PARTIDA CADASTRADA COM SUCESSO!!!";
+        }
+        
+        if (choose == 4){
+            cadastrarIngresso();
+        }
+        
+        
+        
     } while(choose != 0);
-
+    
+    
     int totalPartidas = partidas.size();
     int totalVendas = vendas.size();
 
     // relatorioPartida(totalPartidas, totalVendas); -> Utiliza essa função quando o switch for opçãao 3!
-    //maria rita safada traira nunca ira voltar
+    //Isa caça garupa safada
 
     return 0;
 }
