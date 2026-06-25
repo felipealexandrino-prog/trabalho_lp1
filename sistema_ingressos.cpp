@@ -101,16 +101,14 @@ void relatorioFuncionario(int totalFuncionarios, int totalVendas, int totalItens
     }
 }
 
-
-
 // ─────────────────────────────────────────
 //  MENU PRINCIPAL : Marivaldo
 // ─────────────────────────────────────────
 double menuPrincipal(){
-    
+
     double escolha;
-    
-    cout << "1 - Cadastro de Funcionários\n";
+
+    cout << "\n1 - Cadastro de Funcionários\n";
     cout << "2 - Cadastro de Clientes\n";
     cout << "3 - Cadastro de Partidas\n";
     cout << "4 - Cadastro de Ingressos\n";
@@ -118,14 +116,12 @@ double menuPrincipal(){
     cout << "6 - Consultar Vendas\n";
     cout << "7 - Relatórios\n";
     cout << "0 - Sair\n";
-    
+
     cout << "Escolha Uma Opção: ";
-    std::cin >> escolha;
-    
+    cin >> escolha;
+
     return escolha;
 }
-
-
 
 // ─────────────────────────────────────────
 //  CADASTRO INGRESSO : Marivaldo
@@ -172,83 +168,63 @@ void cadastrarIngresso() {
 //  CADASTRO DE CLIENTES: Marivaldo
 // ─────────────────────────────────────────
 void addClient(string nome, string cpf){
-    
+
     Cliente novoCliente;
-    
+
     novoCliente.id = clientes.size() + 1;
     novoCliente.nome = nome;
     novoCliente.cpf = cpf;
-    
-    
+
     clientes.push_back(novoCliente);
 }
-
-
 
 // ─────────────────────────────────────────
 //  CADASTRO DE PARTIDAS : Marivaldo
 // ─────────────────────────────────────────
 void addmatch(string homeTeam, string awayTeam, string Date){
-    
+
     Partida newMatch;
-    
+
     newMatch.id = partidas.size() + 1;
     newMatch.timeCasa = homeTeam;
     newMatch.timeVisitante = awayTeam;
     newMatch.data = Date;
-    
+
     partidas.push_back(newMatch);
-    
 }
-
-
 
 // ─────────────────────────────────────────
 //  RELATÓRIO DE VENDAS POR CLIENTE: Marivaldo
 // ─────────────────────────────────────────
-
 void relatorioCliente(int totalClientes, int totalVendas){
-    
-    //verificar se ha vendas
+
     if (totalVendas == 0){
         cout << "\nNenhuma Venda Cadastrada\n";
         return;
-        
     }
-    
+
     cout << "\n===== RELATORIO DE VENDAS POR CLIENTE =====\n";
-    
-    //Percorrendo Todos os clientes
+
     for (int i = 0; i < totalClientes; i++){
-        
-        int clientesVendas = 0; //Contador
-        
-        //Percorrendo Todas As VENDAS
-        
+
+        int clientesVendas = 0;
+
         for (int j = 0; j < totalVendas; j++){
             if (vendas[j].idCliente == clientes[i].id){
-                
+
                 clientesVendas++;
-                
+
                 cout << "\nCliente: " << clientes[i].nome;
                 cout << "\nCPF: "<< clientes[i].cpf;
                 cout << "\nTotal de vendas: "<< clientesVendas << "\n";
-                
             }
         }
-        
     }
-    
-    
-    
 }
-
-
 
 // ─────────────────────────────────────────
 //  RELATÓRIO DE VENDAS POR PARTIDA : Felipe
 // ─────────────────────────────────────────
-
 void relatorioPartida(int totalPartidas, int totalVendas) {
 
     if (totalVendas == 0) {
@@ -282,13 +258,49 @@ void relatorioPartida(int totalPartidas, int totalVendas) {
 }
 
 // ─────────────────────────────────────────
+//  CONSULTAR VENDAS: Breno
+// ─────────────────────────────────────────
+
+void consultarVendas() {
+
+    if (vendas.empty()) {
+        cout << "\nNenhuma venda cadastrada.\n";
+        return;
+    }
+
+    cout << "\n===== CONSULTA DE VENDAS =====\n";
+
+    for (int i = 0; i < vendas.size(); i++) {
+        cout << "\nID Venda: "        << vendas[i].id;
+        cout << "\nData: "            << vendas[i].data;
+        cout << "\nID Cliente: "      << vendas[i].idCliente;
+        cout << "\nID Funcionario: "  << vendas[i].idFuncionario;
+        cout << "\nID Partida: "      << vendas[i].idPartida;
+        cout << "\nIngressos da venda:\n";
+
+        for (int j = 0; j < itensVenda.size(); j++) {
+            if (itensVenda[j].idVenda == vendas[i].id) {
+                cout << "ID Ingresso: "
+                     << itensVenda[j].idIngresso
+                     << endl;
+            }
+        }
+
+        cout << "-----------------------------\n";
+    }
+}
+
+// ─────────────────────────────────────────
 //  REALIZAR VENDA: Breno
 // ─────────────────────────────────────────
+
 void realizarVenda() {
+
     if (clientes.empty()) {
         cout << "\nNenhum cliente cadastrado.\n";
         return;
     }
+
     if (ingressos.empty()) {
         cout << "\nNenhum ingresso cadastrado.\n";
         return;
@@ -301,10 +313,12 @@ void realizarVenda() {
     cin >> novaVenda.data;
 
     cout << "\nClientes cadastrados:\n";
-    for (int i = 0; i < (int)clientes.size(); i++) {
+
+    for (int i = 0; i < clientes.size(); i++) {
         cout << "ID: " << clientes[i].id
              << " | Nome: " << clientes[i].nome << endl;
     }
+
     cout << "\nID do cliente: ";
     cin >> novaVenda.idCliente;
 
@@ -312,7 +326,8 @@ void realizarVenda() {
     cin >> novaVenda.idFuncionario;
 
     cout << "\nPartidas cadastradas:\n";
-    for (int i = 0; i < (int)partidas.size(); i++) {
+
+    for (int i = 0; i < partidas.size(); i++) {
         cout << "ID: " << partidas[i].id
              << " | "
              << partidas[i].timeCasa
@@ -320,6 +335,7 @@ void realizarVenda() {
              << partidas[i].timeVisitante
              << endl;
     }
+
     cout << "\nID da partida: ";
     cin >> novaVenda.idPartida;
 
@@ -329,12 +345,14 @@ void realizarVenda() {
     novoItem.idVenda = novaVenda.id;
 
     cout << "\nIngressos cadastrados:\n";
-    for (int i = 0; i < (int)ingressos.size(); i++) {
+
+    for (int i = 0; i < ingressos.size(); i++) {
         cout << "ID: " << ingressos[i].id
              << " | Setor: " << ingressos[i].setor
              << " | Valor: R$ " << ingressos[i].valor
              << endl;
     }
+
     cout << "\nID do ingresso: ";
     cin >> novoItem.idIngresso;
 
@@ -346,80 +364,79 @@ void realizarVenda() {
 // ─────────────────────────────────────────
 //  MAIN
 // ─────────────────────────────────────────
-
 int main() {
-    //Variaveis clientes
+    // Variáveis clientes
     string NomeClient;
     string cpfClient;
-    
-    //Variaveis Partidas
+
+    // Variáveis Partidas
     string data;
     string homeTeam;
     string awayTeam;
-    
-    
+
     cout << "Sistema de Gestão de Ingressos e Sócio Torcedor" << endl;
-    
+
     double choose;
-    
-    do{
-        
+
+    do {
         choose = menuPrincipal();
-        
-        if(choose == 1){
+
+        if (choose == 1) {
             cout << "Cadastro de funcionarios";
         }
-        
-        if(choose == 2){
-            
+
+        if (choose == 2) {
             NomeClient = "";
             cpfClient = "";
-            
+
             cout << "Nome do cliente: ";
             cin >> NomeClient;
-            
+
             cout << "CPF do cliente: ";
             cin >> cpfClient;
-            
+
             addClient(NomeClient, cpfClient);
-            
+
             cout << "!!!CLIENTE ADICIONADO COM SUCESSO!!!\n";
-            
+
             cout << clientes[0].nome << endl;
             cout << clientes[0].id << endl;
             cout << clientes[0].cpf << endl;
-            
         }
-        
-        if(choose == 3){
-            
+
+        if (choose == 3) {
             cout << "Time Da Casa: ";
             cin >> homeTeam;
-            
+
             cout << "Time Visitante: ";
             cin >> awayTeam;
-            
+
             cout << "Data: ";
             cin >> data;
-            
+
             addmatch(homeTeam, awayTeam, data);
-            
+
             cout << "!!!PARTIDA CADASTRADA COM SUCESSO!!!";
         }
-        
-        if (choose == 4){
+
+        if (choose == 4) {
             cadastrarIngresso();
         }
-        
-        
-        
-    } while(choose != 0);
-    
-    
-    int totalPartidas = partidas.size();
-    int totalVendas = vendas.size();
 
-    // relatorioPartida(totalPartidas, totalVendas); -> Utiliza essa função quando o switch for opçãao 3!
+        if (choose == 5) {
+            realizarVenda();
+        }
+
+        if (choose == 6) {
+            consultarVendas();
+        }
+
+    } while (choose != 0);
+
+    int totalPartidas   = partidas.size();
+    int totalVendas     = vendas.size();
+
+    // relatorioPartida(totalPartidas, totalVendas); -> Utiliza essa função quando o switch for opção 3!
     //ANTONELA SAFADA
 
     return 0;
