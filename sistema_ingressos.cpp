@@ -1,7 +1,7 @@
 #include <iostream>
 #include <vector>
 #include <string>
-
+#include <algorithm>
 using namespace std;
 
 // ─────────────────────────────────────────
@@ -257,6 +257,59 @@ void relatorioPartida(int totalPartidas, int totalVendas) {
     }
 }
 
+// ─────────────────────────────────────────────────────
+//  RELATÓRIO PARTIDA QUE MAIS VENDEU INGRESSO: Felipe
+// ─────────────────────────────────────────────────────
+
+void toppartida() {
+
+    if (itensVenda.size() == 0) {
+        cout << "Nenhum ingresso vendido." << endl;
+        return;
+    }
+
+    int maiorQuantidade = 0;
+    int indiceMaior = -1;
+
+    for (int i = 0; i < partidas.size(); i++) {
+
+        int quantidadeIngressos = 0;
+
+        for (int j = 0; j < vendas.size(); j++) {
+
+            if (vendas[j].idPartida == partidas[i].id) {
+
+                for (int k = 0; k < itensVenda.size(); k++) {
+
+                    if (itensVenda[k].idVenda == vendas[j].id) {
+                        quantidadeIngressos++;
+                    }
+
+                }
+
+            }
+
+        }
+
+        if (quantidadeIngressos > maiorQuantidade) {
+            maiorQuantidade = quantidadeIngressos;
+            indiceMaior = i;
+        }
+    }
+
+    if (indiceMaior != -1) {
+        cout << "A partida com maior numero de ingressos vendidos foi: "
+             << partidas[indiceMaior].timeCasa
+             << " x "
+             << partidas[indiceMaior].timeVisitante
+             << " com "
+             << maiorQuantidade
+             << " ingressos vendidos."
+             << endl;
+    }
+
+}
+
 // ─────────────────────────────────────────
 //  CONSULTAR VENDAS: Breno
 // ─────────────────────────────────────────
@@ -437,7 +490,7 @@ int main() {
     int totalVendas     = vendas.size();
 
     // relatorioPartida(totalPartidas, totalVendas); -> Utiliza essa função quando o switch for opção 3!
-    //ANTONELA SAFADA
+    //ANTONELA SAFADA e boa ultra premium plus
 
     return 0;
 }
