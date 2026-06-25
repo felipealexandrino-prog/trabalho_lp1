@@ -282,6 +282,68 @@ void relatorioPartida(int totalPartidas, int totalVendas) {
 }
 
 // ─────────────────────────────────────────
+//  REALIZAR VENDA: Breno
+// ─────────────────────────────────────────
+void realizarVenda() {
+    if (clientes.empty()) {
+        cout << "\nNenhum cliente cadastrado.\n";
+        return;
+    }
+    if (ingressos.empty()) {
+        cout << "\nNenhum ingresso cadastrado.\n";
+        return;
+    }
+
+    Venda novaVenda;
+    novaVenda.id = vendas.size() + 1;
+
+    cout << "\nData da venda: ";
+    cin >> novaVenda.data;
+
+    cout << "\nClientes cadastrados:\n";
+    for (int i = 0; i < (int)clientes.size(); i++) {
+        cout << "ID: " << clientes[i].id
+             << " | Nome: " << clientes[i].nome << endl;
+    }
+    cout << "\nID do cliente: ";
+    cin >> novaVenda.idCliente;
+
+    cout << "\nID do funcionario: ";
+    cin >> novaVenda.idFuncionario;
+
+    cout << "\nPartidas cadastradas:\n";
+    for (int i = 0; i < (int)partidas.size(); i++) {
+        cout << "ID: " << partidas[i].id
+             << " | "
+             << partidas[i].timeCasa
+             << " x "
+             << partidas[i].timeVisitante
+             << endl;
+    }
+    cout << "\nID da partida: ";
+    cin >> novaVenda.idPartida;
+
+    vendas.push_back(novaVenda);
+
+    ItemVenda novoItem;
+    novoItem.idVenda = novaVenda.id;
+
+    cout << "\nIngressos cadastrados:\n";
+    for (int i = 0; i < (int)ingressos.size(); i++) {
+        cout << "ID: " << ingressos[i].id
+             << " | Setor: " << ingressos[i].setor
+             << " | Valor: R$ " << ingressos[i].valor
+             << endl;
+    }
+    cout << "\nID do ingresso: ";
+    cin >> novoItem.idIngresso;
+
+    itensVenda.push_back(novoItem);
+
+    cout << "\nVenda realizada com sucesso!\n";
+}
+
+// ─────────────────────────────────────────
 //  MAIN
 // ─────────────────────────────────────────
 
