@@ -324,7 +324,7 @@ int main() {
     int totalVendas = vendas.size();
 
     // relatorioPartida(totalPartidas, totalVendas); -> Utiliza essa função quando o switch for opçãao 3!
-    //Isa caça garupa safada
+    //ANTONELA SAFADA
 
     return 0;
 }
