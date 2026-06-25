@@ -65,7 +65,41 @@ vector<Ingresso> ingressos;
 vector<Venda> vendas;
 vector<ItemVenda> itensVenda;
 
+// ─────────────────────────────────────────
+//  RELATÓRIO DE VENDAS POR FUNCIONÁRIO: RUAN
+// ─────────────────────────────────────────
 
+void relatorioFuncionario(int totalFuncionarios, int totalVendas, int totalItens) {
+
+    if (totalVendas == 0) {
+        cout << "\nNenhuma venda cadastrada.\n";
+        return;
+    }
+
+    cout << "\n===== RELATORIO DE VENDAS POR FUNCIONARIO =====\n";
+
+    for (int i = 0; i < totalFuncionarios; i++) {
+        int qtdVendas    = 0;
+        int qtdIngressos = 0;
+
+        for (int j = 0; j < totalVendas; j++) {
+            if (vendas[j].idFuncionario == funcionarios[i].id) {
+                qtdVendas++;
+
+                for (int k = 0; k < totalItens; k++) {
+                    if (itensVenda[k].idVenda == vendas[j].id) {
+                        qtdIngressos++;
+                    }
+                }
+            }
+        }
+
+        cout << "\nFuncionario: " << funcionarios[i].nome;
+        cout << "\nCargo: "       << funcionarios[i].cargo;
+        cout << "\nVendas realizadas: " << qtdVendas;
+        cout << "\nIngressos vendidos: " << qtdIngressos << "\n";
+    }
+}
 
 
 
