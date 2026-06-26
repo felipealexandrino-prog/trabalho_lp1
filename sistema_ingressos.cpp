@@ -118,25 +118,48 @@ void relatorioFuncionario(int totalFuncionarios, int totalVendas, int totalItens
 // ─────────────────────────────────────────
 //  MENU PRINCIPAL : Marivaldo
 // ─────────────────────────────────────────
-double menuPrincipal()
+int menuPrincipal()
 {
 
-    double escolha;
+    int escolha;
 
-    cout << "\n1 - Cadastro de Funcionários\n";
+    cout << "\n1 - Cadastro de Funcionarios\n";
     cout << "2 - Cadastro de Clientes\n";
     cout << "3 - Cadastro de Partidas\n";
     cout << "4 - Cadastro de Ingressos\n";
     cout << "5 - Realizar Venda\n";
     cout << "6 - Consultar Vendas\n";
-    cout << "7 - Relatórios\n";
+    cout << "7 - Relatorios\n";
     cout << "0 - Sair\n";
 
-    cout << "Escolha Uma Opção: ";
+    cout << "Escolha Uma Opcao: ";
     cin >> escolha;
 
     return escolha;
 }
+
+// ─────────────────────────────────────────
+//  MENU RELATORIOS : Marivaldo
+// ─────────────────────────────────────────
+
+int menuRelatorios()
+{
+    int escolha;
+    cout << "\n===== MENU DE RELATORIOS =====\n";
+    cout << "1 - Relatorio de Vendas por Funcionario\n";
+    cout << "2 - Relatorio de Vendas por Cliente\n";
+    cout << "3 - Relatorio de Vendas por Partida\n";
+    cout << "4 - Partida que mais vendeu ingressos\n";
+    cout << "0 - Voltar ao Menu Principal\n";
+    cout << "Escolha uma opcao: ";
+    
+    cin >> escolha;
+    
+	return escolha;
+ 
+}
+
+
 
 // ─────────────────────────────────────────
 //  CADASTRO INGRESSO : Marivaldo
@@ -215,14 +238,20 @@ void addworker()
 // ─────────────────────────────────────────
 //  CADASTRO DE CLIENTES: Marivaldo
 // ─────────────────────────────────────────
-void addClient(string nome, string cpf)
+void addClient()
 {
 
     Cliente novoCliente;
-
     novoCliente.id = clientes.size() + 1;
-    novoCliente.nome = nome;
-    novoCliente.cpf = cpf;
+    
+	cin.ignore(); // Limpa o buffer do cin antes de usar getline
+    
+	cout << "\nDigite o nome do cliente: ";
+	getline(cin, novoCliente.nome);
+    
+	cout << "Digite o CPF do cliente: ";
+	cin >> novoCliente.cpf;
+
 
     clientes.push_back(novoCliente);
 }
@@ -230,15 +259,23 @@ void addClient(string nome, string cpf)
 // ─────────────────────────────────────────
 //  CADASTRO DE PARTIDAS : Marivaldo
 // ─────────────────────────────────────────
-void addmatch(string homeTeam, string awayTeam, string Date)
+void addmatch()
 {
 
     Partida newMatch;
 
     newMatch.id = partidas.size() + 1;
-    newMatch.timeCasa = homeTeam;
-    newMatch.timeVisitante = awayTeam;
-    newMatch.data = Date;
+
+	cin.ignore(); // Limpa o buffer do cin antes de usar getline
+
+	cout << "\nDigite o nome do time da casa: ";
+	getline(cin, newMatch.timeCasa);
+
+	cout << "Digite o nome do time visitante: ";
+	getline(cin, newMatch.timeVisitante);
+
+	cout << "Digite a data da partida (dd/mm/aaaa): ";
+	cin >> newMatch.data;
 
     partidas.push_back(newMatch);
 }
@@ -453,6 +490,14 @@ void realizarVenda()
     cout << "\nID do cliente: ";
     cin >> novaVenda.idCliente;
 
+
+	cout << "\nFuncionarios cadastrados:\n";
+
+    for (int i = 0; i < funcionarios.size(); i++)
+    {
+        cout << "ID: " << funcionarios[i].id << " | Nome: " << funcionarios[i].nome << endl;
+    }
+
     cout << "\nID do funcionario: ";
     cin >> novaVenda.idFuncionario;
 
@@ -516,6 +561,7 @@ int main()
     cout << "Sistema de Gestão de Ingressos e Sócio Torcedor" << endl;
 
     int choose;
+	int relatorioEscolha;
 
     do
     {
@@ -526,16 +572,71 @@ int main()
         case 1:
 			addworker();
 			break;
+
+        case 2:
+			addClient();
+			break;
+
+        case 3:
+			addmatch();
+            break;
+
+        case 4:
+            cadastrarIngresso();
+			break;
+
+        case 5:
+            realizarVenda();
+			break;
+
+        case 6:
+			consultarVendas();
+            break;
+
+        case 7:
+            do
+            {
+				relatorioEscolha = menuRelatorios();
+
+                switch (relatorioEscolha)
+                {  
+                
+                  case 1:
+					  relatorioFuncionario(funcionarios.size(), vendas.size(), itensVenda.size());
+					  break;
+
+                  case 2:
+					  relatorioCliente(clientes.size(), vendas.size());
+					  break;
+
+				  case 3:
+                      relatorioPartida(partidas.size(), vendas.size());
+                      break;
+
+                  case 4:
+                      toppartida();
+					  break;
+                    
+                  default:
+                      cout << "\nOpcao invalida. Tente novamente.\n";
+					  break;
+                }
+				break;
+        
+        default:
+			cout << "\nOpcao invalida. Tente novamente.\n";
+			break;
+
+
+            } while (relatorioEscolha != 0);
+
         }
+
+        
   
 
     } while (choose != 0);
 
-    int totalPartidas = partidas.size();
-    int totalVendas = vendas.size();
-
-    // relatorioPartida(totalPartidas, totalVendas); -> Utiliza essa função quando o switch for opção 3!
-    //ANTONELA SAFADA e boa ultra premium plus
 
     return 0;
 }
